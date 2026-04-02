@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Hello World"
+rootProject.name = "hw4-android3-app"
 include(":app")
