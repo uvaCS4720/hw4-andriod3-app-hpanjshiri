@@ -25,7 +25,6 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 
-// UVA brand colors
 val UvaBlue = Color(0xFF232D4B)
 val UvaOrange = Color(0xFFE57200)
 val UvaLightBlue = Color(0xFF4B9CD3)
@@ -39,7 +38,6 @@ fun MapScreen(viewModel: MapViewModel = viewModel()) {
     val selectedTag by viewModel.selectedTag.collectAsState()
     val filteredLocations by viewModel.filteredLocations.collectAsState()
 
-    // UVA Grounds center coordinates
     val uvaCenter = LatLng(38.0336, -78.5080)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(uvaCenter, 15f)
@@ -50,7 +48,6 @@ fun MapScreen(viewModel: MapViewModel = viewModel()) {
             .fillMaxSize()
             .background(BackgroundGray)
     ) {
-        // top header bar
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -72,14 +69,12 @@ fun MapScreen(viewModel: MapViewModel = viewModel()) {
             }
         }
 
-        // tag filter dropdown
         TagDropdown(
             tags = allTags,
             selectedTag = selectedTag,
             onTagSelected = { viewModel.selectTag(it) }
         )
 
-        // map takes up rest of screen
         Box(modifier = Modifier.fillMaxSize()) {
             GoogleMap(
                 modifier = Modifier.fillMaxSize(),
@@ -95,7 +90,6 @@ fun MapScreen(viewModel: MapViewModel = viewModel()) {
                 }
             }
 
-            // little chip showing current tag + count
             Surface(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -130,7 +124,6 @@ fun TagDropdown(
             .background(Color.White)
             .padding(horizontal = 16.dp, vertical = 10.dp)
     ) {
-        // the dropdown trigger button
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -162,7 +155,6 @@ fun TagDropdown(
             )
         }
 
-        // dropdown menu with scrollable tag list
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },

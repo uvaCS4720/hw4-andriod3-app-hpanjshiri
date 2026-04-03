@@ -6,12 +6,11 @@ import edu.nd.pmcburne.hello.database.LocationEntity
 
 class LocationRepository(private val db: AppDatabase) {
 
-    // called once on startup - fetches from API and syncs to DB
+    // fetches from API and syncs to DB
     suspend fun syncFromApi() {
         val response = RetrofitInstance.api.getPlacemarks()
 
         val entities = response.mapNotNull { placemark ->
-            // skip any that dont have coords
             val center = placemark.visualCenter ?: return@mapNotNull null
             LocationEntity(
                 id = placemark.id,
@@ -23,7 +22,7 @@ class LocationRepository(private val db: AppDatabase) {
             )
         }
 
-        // IGNORE conflict means duplicates just get skipped
+        // duplicates get skipped
         db.locationDao().insertAll(entities)
     }
 

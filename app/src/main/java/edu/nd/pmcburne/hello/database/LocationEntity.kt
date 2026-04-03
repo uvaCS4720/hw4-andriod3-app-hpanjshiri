@@ -8,7 +8,7 @@ data class LocationEntity(
     @PrimaryKey val id: Int,
     val name: String,
     val description: String,
-    val tags: String,       // stored as comma-separated string
+    val tags: String,
     val latitude: Double,
     val longitude: Double
 )

@@ -14,36 +14,31 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = LocationRepository(AppDatabase.getDatabase(application))
 
-    // all locations from the DB
     private val _allLocations = MutableStateFlow<List<LocationEntity>>(emptyList())
 
-    // unique tags for the dropdown
     private val _allTags = MutableStateFlow<List<String>>(emptyList())
     val allTags: StateFlow<List<String>> = _allTags
 
-    // currently selected tag - starts at "core" per requirements
     private val _selectedTag = MutableStateFlow("core")
     val selectedTag: StateFlow<String> = _selectedTag
 
-    // filtered locations shown on map
     private val _filteredLocations = MutableStateFlow<List<LocationEntity>>(emptyList())
     val filteredLocations: StateFlow<List<LocationEntity>> = _filteredLocations
 
     init {
         viewModelScope.launch {
-            // sync from API on startup
+            // sync from API
             try {
                 repository.syncFromApi()
             } catch (e: Exception) {
-                // if network fails, we still load from DB below
+                // if network fails, try catch load from db
                 e.printStackTrace()
             }
 
-            // load everything from DB
+            // load from DB
             val locations = repository.getAllLocations()
             _allLocations.value = locations
 
-            // build sorted unique tag list
             val tags = locations
                 .flatMap { it.tags.split(",") }
                 .map { it.trim() }

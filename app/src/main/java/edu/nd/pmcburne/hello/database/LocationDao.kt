@@ -8,7 +8,7 @@ import androidx.room.Query
 @Dao
 interface LocationDao {
 
-    // insert or ignore so we don't get duplicates on re-launch
+    // don't get duplicates on re-launch
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(locations: List<LocationEntity>)
 
